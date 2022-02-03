@@ -1,0 +1,47 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 02/03/2022 10:06:01 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 7A20              2     MOV R2, #20H
+0002 7910              3     MOV R1, #10H
+0004 EA                4     MOV A, R2
+0005 F9                5     MOV R1, A
+                       6     
+                       7     
+0006 7400              8     MOV A, #00H
+0008 900050            9     MOV DPTR, #0050H
+000B 93               10     MOVC A, @ A+DPTR
+000C 7850             11     MOV R0,  #50H
+000E F2               12     MOVX @ R0, A
+000F 900100           13     MOV DPTR, #100H
+0012 F0               14     MOVX @ DPTR, A
+                      15     END 
+                                     
+                                     
+                             MOV A, #0E1H
+*** WARNING #A73 IN 18 (main.a51, LINE 18): TEXT FOUND BEYOND END STATEMENT - IGNORED
+                             ADD A, #5CH  
+                             MOV R0, A  
+                             MOV A, #42H  
+                             ADDC A, #25H  
+A51 MACRO ASSEMBLER  MAIN                                                                 02/03/2022 10:06:01 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  1 WARNING(S), 0 ERROR(S)
