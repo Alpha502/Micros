@@ -1,0 +1,322 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:01:21 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1             ORG 0000H
+0000 020030            2             LJMP INICIO  
+                       3             
+000B                   4             ORG 000BH
+000B 0200CD            5             LJMP RTT0  
+                       6             
+001B                   7             ORG 001BH
+001B 020147            8             LJMP RTT1  
+                       9             
+0003                  10             ORG 0003H
+0003 02018A           11             LJMP EXT0  
+                      12             
+0013                  13             ORG 0013H
+0013 0201C1           14             LJMP EXT1  
+                      15             
+0030                  16             ORG 0030H
+                      17                     
+0030                  18     INICIO:
+                      19     
+0030 75A88F           20                     MOV IE,#10001111B  
+0033 75B80A           21                     MOV IP,#00001010B  
+                      22                     
+0036 753200           23                     MOV 32H,#0H  
+0039 753300           24                     MOV 33H,#0H  
+003C 753400           25                     MOV 34H,#0H  
+003F 753500           26                     MOV 35H,#0H  
+0042 753602           27                     MOV 36H,#2H  
+0045 753701           28                     MOV 37H,#1H  
+                      29                     
+0048 755200           30                     MOV 52H,#0H  
+004B 755300           31                     MOV 53H,#0H  
+004E 755402           32                     MOV 54H,#2H  
+0051 755501           33                     MOV 55H,#1H  
+0054 754800           34                     MOV 48H,#0H  
+                      35                     
+0057 753C40           36                     MOV 3CH,#01000000b  
+005A 753D79           37                     MOV 3DH,#01111001b  
+005D 753E24           38                     MOV 3EH,#00100100b  
+0060 753F30           39                     MOV 3FH,#00110000b  
+0063 754019           40                     MOV 40H,#00011001b  
+0066 754112           41                     MOV 41H,#00010010b  
+0069 754202           42                     MOV 42H,#00000010b  
+006C 754378           43                     MOV 43H,#01111000b  
+006F 754400           44                     MOV 44H,#00000000b  
+0072 754518           45                     MOV 45H,#00011000b  
+                      46                     
+0075 75A0DF           47                     MOV P2, #11011111B  
+0078 7580FF           48                     MOV P0, #11111111B  
+007B 758911           49                     MOV TMOD,#00010001B  
+007E 758CF8           50                     MOV TH0,#HIGH(-1926)  
+0081 758A7A           51                     MOV TL0,#LOW(-1926)  
+0084 758DFE           52                     MOV TH1,#HIGH(-500)  
+0087 758B0C           53                     MOV TL1,#LOW(-500)  
+008A D28C             54                     SETB TR0  
+008C 7A00             55                     MOV R2,#0H
+008E 7E00             56                     MOV R6,#0H
+0090 D290             57             SETB P1.0  
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:01:21 PAGE     2
+
+                      58     
+0092 30B102           59     ESPERA: JNB P3.1, CLEARALARM  
+0095 800C             60                     JMP ALARM_1
+0097 755200           61     CLEARALARM: MOV 52H,#0H  
+009A 755300           62                     MOV 53H,#0H  
+009D 755400           63                     MOV 54H,#0H  
+00A0 755500           64                     MOV 55H,#0H  
+00A3                  65             ALARM_1:  
+00A3 E4               66                     CLR A
+00A4 E534             67                     MOV A, 34H
+00A6 B55201           68                     CJNE A, 52H, ALARM_2
+00A9 0E               69                     INC R6
+00AA                  70             ALARM_2:  
+00AA E4               71                     CLR A
+00AB E535             72                     MOV A, 35H
+00AD B55301           73                     CJNE A, 53H, ALARM_3
+00B0 0E               74                     INC R6
+00B1                  75             ALARM_3:  
+00B1 E4               76                     CLR A
+00B2 E536             77                     MOV A, 36H
+00B4 B55401           78                     CJNE A, 54H, ALARM_4
+00B7 0E               79                     INC R6
+00B8                  80             ALARM_4:  
+00B8 E4               81                     CLR A
+00B9 E537             82                     MOV A, 37H
+00BB B55501           83                     CJNE A, 55H, ALARM_5
+00BE 0E               84                     INC R6
+00BF                  85             ALARM_5:  
+00BF E4               86                     CLR A
+00C0 BE0404           87                     CJNE R6, #04H, ALARM_SOUND
+00C3 7E00             88                     MOV R6, #0
+00C5 C290             89                     CLR P1.0
+00C7                  90             ALARM_SOUND:
+00C7 7E00             91                     MOV R6, #0
+00C9 D290             92                     SETB P1.0
+00CB 80C5             93                     JMP ESPERA
+                      94     
+00CD                  95     RTT0:
+00CD D28E             96                     SETB TR1  
+00CF C28E             97                     CLR TR1  
+00D1 758CF8           98                     MOV TH0,#HIGH(-1991)  
+00D4 758A39           99                     MOV TL0,#LOW(-1991)  
+00D7 0548            100                     INC 48H
+00D9 75A000          101                     MOV P2,#0H
+00DC 30B434          102                     JNB P3.4, ALARMA  
+00DF D291            103                     SETB P1.1  
+                     104             
+00E1                 105             DISPLAY_1:
+00E1 7901            106                     MOV R1,#00000001B
+00E3 E534            107                     MOV A,34H
+00E5 BA0002          108                     CJNE R2,#0H,DISPLAY_2
+00E8 8020            109                     JMP DISPLAYS
+00EA                 110             DISPLAY_2:
+00EA 7902            111                     MOV R1,#00000010B
+00EC E535            112                     MOV A,35H
+00EE BA0102          113                     CJNE R2,#1H,DISPLAY_3
+00F1 8017            114                     JMP DISPLAYS
+00F3                 115             DISPLAY_3:
+00F3 7904            116                     MOV R1,#00000100B
+00F5 E536            117                     MOV A,36H
+00F7 BA0202          118                     CJNE R2,#2H,DISPLAY_4
+00FA 800E            119                     JMP DISPLAYS
+00FC                 120             DISPLAY_4:
+00FC 7908            121                     MOV R1,#00001000B
+00FE E537            122                     MOV A,37H
+0100 7A00            123                     MOV R2,#0H
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:01:21 PAGE     3
+
+0102 BA0302          124                     CJNE R2,#3H,RESTART_DISPLAY
+0105 8003            125                     JMP DISPLAYS
+0107                 126             RESTART_DISPLAY:
+0107 7A00            127                     MOV R2,#0
+0109 1A              128                     DEC R2
+010A                 129             DISPLAYS:
+010A 0A              130                     INC R2
+010B 89A0            131                     MOV P2,R1
+010D 243C            132                     ADD A,#3CH
+010F F8              133                     MOV R0,A
+0110 8680            134                     MOV P0,@R0
+0112 32              135                     RETI  
+                     136             
+0113 C291            137             ALARMA: CLR P1.1
+0115 7901            138             AL_DISPLAY_1: MOV R1,#00000001B
+0117 E552            139                             MOV A,52H
+0119 BA0002          140                             CJNE R2,#0H,AL_DISPLAY_2
+011C 8020            141                             JMP AL_DISPLAYS
+011E 7902            142                     AL_DISPLAY_2: MOV R1,#00000010B
+0120 E553            143                             MOV A,53H
+0122 BA0102          144                             CJNE R2,#1H,AL_DISPLAY_3
+0125 8017            145                             JMP AL_DISPLAYS
+0127 7904            146                     AL_DISPLAY_3: MOV R1,#00000100B
+0129 E554            147                             MOV A,54H
+012B BA0202          148                             CJNE R2,#2H,AL_DISPLAY_4
+012E 800E            149                             JMP AL_DISPLAYS
+0130 7908            150                     AL_DISPLAY_4: MOV R1,#00001000B
+0132 E555            151                             MOV A,55H
+0134 7A00            152                             MOV R2,#0H
+0136 BA0302          153                             CJNE R2,#3H,AL_RESTART_DISPLAY
+0139 8003            154                             JMP AL_DISPLAYS
+013B                 155                     AL_RESTART_DISPLAY:
+013B 7A00            156                             MOV R2,#0
+013D 1A              157                             DEC R2
+013E                 158                     AL_DISPLAYS:
+013E 0A              159                             INC R2
+013F 89A0            160                             MOV P2,R1
+0141 243C            161                             ADD A,#3CH
+0143 F8              162                             MOV R0,A
+0144 8680            163                             MOV P0,@R0
+0146 32              164                             RETI  
+0147                 165     RTT1:
+0147 758DFE          166                     MOV TH1,#HIGH(-500)  
+014A 758B0C          167                     MOV TL1,#LOW(-500)
+014D                 168             UNISEG:
+014D 0532            169                     INC 32H  
+014F AB32            170                     MOV R3,32H  
+0151 BB0A35          171                     CJNE R3,#0AH,ENDCLK
+0154 753200          172                     MOV 32H,#0H  
+0157                 173             DECSEG:
+0157 0533            174                     INC 33H  
+0159 AB33            175                     MOV R3,33H  
+015B BB062B          176                     CJNE R3,#06H,ENDCLK
+015E 753300          177                     MOV 33H,#0H  
+0161                 178             UNIMIN:
+0161 0534            179                     INC 34H  
+0163 AB34            180                     MOV R3,34H  
+0165 BB0A21          181                     CJNE R3,#0AH,ENDCLK
+0168 753400          182                     MOV 34H,#0H  
+016B                 183             DECMIN:
+016B 0535            184                     INC 35H  
+016D AB35            185                     MOV R3,35H  
+016F BB0617          186                     CJNE R3,#06H,ENDCLK
+0172 753500          187                     MOV 35H,#0H  
+0175                 188             UNIHOUR:
+0175 0536            189                     INC 36H  
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:01:21 PAGE     4
+
+0177 AB36            190                     MOV R3,36H  
+0179 BB0A0D          191                     CJNE R3,#0AH,ENDCLK
+017C 753600          192                     MOV 36H,#0H  
+017F                 193             DECHORA:
+017F 0537            194                     INC 37H  
+0181 AB37            195                     MOV R3,37H  
+0183 BB0303          196                     CJNE R3,#03H,ENDCLK
+0186 753700          197                     MOV 37H,#0H  
+0189                 198             ENDCLK:
+0189 32              199                     RETI  
+018A                 200     EXT0:
+018A 754800          201                     MOV 48H,#0H
+018D                 202             ADDMIN:  
+018D AC48            203                     MOV R4,48H  
+018F BC50FB          204                     CJNE R4,#50H,ADDMIN
+0192 30B403          205                     JNB P3.4, ADDMINALARMA  
+0195 80CA            206                     JMP UNIMIN
+0197 32              207                     RETI
+0198                 208             ADDMINALARMA:
+0198                 209                     ADDMIN_UNIMIN:
+0198 0552            210                             INC 52H  
+019A AB52            211                             MOV R3,52H  
+019C BB0A21          212                             CJNE R3,#0AH,ADDMIN_ENDCLK
+019F 755200          213                             MOV 52H,#0H  
+01A2                 214                     ADDMIN_DECMIN:
+01A2 0553            215                             INC 53H  
+01A4 AB53            216                             MOV R3,53H  
+01A6 BB0617          217                             CJNE R3,#06H,ADDMIN_ENDCLK
+01A9 755300          218                             MOV 53H,#0H  
+01AC                 219                     ADDMIN_UNIHOUR:
+01AC 0554            220                             INC 54H  
+01AE AB54            221                             MOV R3,54H  
+01B0 BB0A0D          222                             CJNE R3,#0AH,ADDMIN_ENDCLK
+01B3 755400          223                             MOV 54H,#0H  
+01B6                 224                     ADDMIN_DECHORA:
+01B6 0555            225                             INC 55H  
+01B8 AB55            226                             MOV R3,55H  
+01BA BB0303          227                             CJNE R3,#03H,ADDMIN_ENDCLK
+01BD 755500          228                             MOV 55H,#0H  
+01C0                 229                     ADDMIN_ENDCLK:
+01C0 32              230                             RETI
+01C1                 231     EXT1:
+01C1 753200          232             MOV 32H,#0H  
+01C4 753300          233             MOV 33H,#0H  
+01C7 753400          234             MOV 34H,#0H  
+01CA 753500          235             MOV 35H,#0H  
+01CD 753602          236             MOV 36H,#2H  
+01D0 753701          237             MOV 37H,#1H  
+01D3 32              238             RETI
+                     239     END
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:01:21 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ADDMIN . . . . . .  C ADDR   018DH   A   
+ADDMINALARMA . . .  C ADDR   0198H   A   
+ADDMIN_DECHORA . .  C ADDR   01B6H   A   
+ADDMIN_DECMIN. . .  C ADDR   01A2H   A   
+ADDMIN_ENDCLK. . .  C ADDR   01C0H   A   
+ADDMIN_UNIHOUR . .  C ADDR   01ACH   A   
+ADDMIN_UNIMIN. . .  C ADDR   0198H   A   
+ALARMA . . . . . .  C ADDR   0113H   A   
+ALARM_1. . . . . .  C ADDR   00A3H   A   
+ALARM_2. . . . . .  C ADDR   00AAH   A   
+ALARM_3. . . . . .  C ADDR   00B1H   A   
+ALARM_4. . . . . .  C ADDR   00B8H   A   
+ALARM_5. . . . . .  C ADDR   00BFH   A   
+ALARM_SOUND. . . .  C ADDR   00C7H   A   
+AL_DISPLAYS. . . .  C ADDR   013EH   A   
+AL_DISPLAY_1 . . .  C ADDR   0115H   A   
+AL_DISPLAY_2 . . .  C ADDR   011EH   A   
+AL_DISPLAY_3 . . .  C ADDR   0127H   A   
+AL_DISPLAY_4 . . .  C ADDR   0130H   A   
+AL_RESTART_DISPLAY  C ADDR   013BH   A   
+CLEARALARM . . . .  C ADDR   0097H   A   
+DECHORA. . . . . .  C ADDR   017FH   A   
+DECMIN . . . . . .  C ADDR   016BH   A   
+DECSEG . . . . . .  C ADDR   0157H   A   
+DISPLAYS . . . . .  C ADDR   010AH   A   
+DISPLAY_1. . . . .  C ADDR   00E1H   A   
+DISPLAY_2. . . . .  C ADDR   00EAH   A   
+DISPLAY_3. . . . .  C ADDR   00F3H   A   
+DISPLAY_4. . . . .  C ADDR   00FCH   A   
+ENDCLK . . . . . .  C ADDR   0189H   A   
+ESPERA . . . . . .  C ADDR   0092H   A   
+EXT0 . . . . . . .  C ADDR   018AH   A   
+EXT1 . . . . . . .  C ADDR   01C1H   A   
+IE . . . . . . . .  D ADDR   00A8H   A   
+INICIO . . . . . .  C ADDR   0030H   A   
+IP . . . . . . . .  D ADDR   00B8H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+RESTART_DISPLAY. .  C ADDR   0107H   A   
+RTT0 . . . . . . .  C ADDR   00CDH   A   
+RTT1 . . . . . . .  C ADDR   0147H   A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+UNIHOUR. . . . . .  C ADDR   0175H   A   
+UNIMIN . . . . . .  C ADDR   0161H   A   
+UNISEG . . . . . .  C ADDR   014DH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

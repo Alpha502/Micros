@@ -1,0 +1,60 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 03/10/2022 10:32:03 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000h
+0000 900100            2             MOV DPTR, #0100H
+0003 75A0FF            3             MOV P2, #0FFH
+0006 7800              4     REPEAT: MOV R0, #00H
+0008 E8                5     NEXT:   MOV A, R0 
+0009 93                6             MOVC A, @A+DPTR
+000A F580              7             MOV P0, A  
+000C 7DC8              8             MOV R5, #200  
+000E 7EFF              9     THERE2: MOV R6, #255
+0010 00               10     THERE1: NOP
+0011 00               11             NOP
+0012 00               12             NOP
+0013 00               13             NOP
+0014 DEFA             14             DJNZ R6,THERE1
+0016 DDF6             15             DJNZ R5,THERE2
+0018 08               16             INC R0
+0019 B80AEC           17             CJNE R0, #0AH, NEXT  
+001C 80E8             18             SJMP REPEAT  
+0100                  19     ORG 0100h
+0100 C0               20                     DB 0C0H
+0101 F9               21                     DB 0F9H
+0102 A4               22                     DB 0A4H
+0103 B0               23                     DB 0B0H
+0104 99               24                     DB 099H
+0105 92               25                     DB 092H
+0106 82               26                     DB 082H
+0107 F8               27                     DB 0F8H
+0108 80               28                     DB 080H
+0109 90               29                     DB 090H
+                      30                     END
+A51 MACRO ASSEMBLER  MAIN                                                                 03/10/2022 10:32:03 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+NEXT . . . . . . .  C ADDR   0008H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+REPEAT . . . . . .  C ADDR   0006H   A   
+THERE1 . . . . . .  C ADDR   0010H   A   
+THERE2 . . . . . .  C ADDR   000EH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,3 @@
+".\Objects\main.obj" 
+TO ".\Objects\ring_counter" 
+PRINT(".\Listings\ring_counter.m51") RAMSIZE(256) 

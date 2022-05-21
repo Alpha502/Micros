@@ -1,0 +1,14 @@
+- Declarar variables de iniciación
+- <Si se escribe algo en el teclado matricial>
+-  Sí > 
+-     < Si esta en modo ASCII o normal>
+-     Sí > 
+-        > lee el dato del teclado matricial y lo guarda
+-        > si es el primer dato lo guarda, si no lo suma al pasado para completar el carácter ASCII 
+-        > envía el dato a la pantalla LCD
+-        > se resetea el counter del modo ASCII
+-     No > 
+-        > leer el dato del teclado matricial y lo guarda
+-        > envía el dato a la pantalla LCD
+- < Si el botón de mandar se presiona>
+-  Sí > enviar los datos guardados al módulo Bluetooth

@@ -1,0 +1,50 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 03/17/2022 09:59:32 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1                     org 0000H
+0000 757005            2                     MOV 70H, #05H
+0003 757101            3                     MOV 71H, #01H
+0006 757204            4                     MOV 72H, #04H
+0009 757302            5                     MOV 73H, #02H
+000C 757408            6                     MOV 74H, #08H
+000F 7A04              7     REPEAT: MOV R2, #04H
+0011 C200              8                     CLR 00H
+0013 7871              9                     MOV R0, #71H
+0015 7970             10                     MOV R1, #70H
+0017 8702             11     LOOP:   MOV 02H, @R1
+0019 E6               12                     MOV A, @R0
+001A 9502             13                     SUBB A, 02H
+001C 5005             14                     JNC OTRA
+001E E6               15                     MOV A, @R0
+001F C7               16                     XCH A, @R1
+0020 C6               17                     XCH A, @R0
+0021 D200             18                     SETB 00H
+0023 08               19     OTRA:   INC R0
+0024 09               20                     INC R1
+0025 DAF0             21                     DJNZ R2, LOOP
+0027 2000E5           22                     JB 00H, REPEAT
+                      23                     END
+A51 MACRO ASSEMBLER  MAIN                                                                 03/17/2022 09:59:32 PAGE     2
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+LOOP . . . . . . .  C ADDR   0017H   A   
+OTRA . . . . . . .  C ADDR   0023H   A   
+REPEAT . . . . . .  C ADDR   000FH   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

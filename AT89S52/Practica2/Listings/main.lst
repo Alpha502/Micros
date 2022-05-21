@@ -1,0 +1,242 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:02:31 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000h
+0000 900100            2     here:   MOV DPTR, #0100H
+0003 75A0FF            3             MOV P2, #0FFH
+0006 7814              4                     MOV R0, #14H
+0008 7900              5                     MOV R1, #00H     
+000A 7A00              6                     MOV R2, #00H     
+000C 7B00              7                     MOV R3, #00H     
+000E 7C00              8                     MOV R4, #00H     
+0010 7D02              9                     MOV R5, #02H     
+0012 7E01             10                     MOV R6, #01H     
+0014 7F04             11                     MOV R7, #04H
+0016 753001           12                     MOV 30H, #01H    
+0019 753100           13                     MOV 31H, #00H
+001C 753202           14                     MOV 32H, #02H
+001F 753301           15                     MOV 33H, #01H
+0022 753400           16                     MOV 34H, #00H    
+0025 758911           17             MOV TMOD, #11H  
+0028 758C3C           18                     MOV TH0, #03CH  
+002B 758AB0           19             MOV TL0, #0B0H
+002E 758DFC           20                     MOV TH1, #0FCH
+0031 758B18           21                     MOV TL1, #018H
+0034 D28C             22             SETB TR0  
+0036 D28E             23                     SETB TR1
+0038 D290             24                     SETB P1.0        
+003A C2B1             25                     CLR P3.1
+                      26     
+                      27     
+                      28     
+                      29     
+                      30     
+                      31     
+                      32     
+                      33     
+003C                  34     VAL_ALARMA:                              
+003C E4               35                             CLR A
+003D EB               36                             MOV A, R3
+003E B53002           37                             CJNE A, 30H, VAL_ALARMA2
+0041 0534             38                             INC 34H
+0043                  39     VAL_ALARMA2:                             
+0043 E4               40                             CLR A
+0044 EC               41                             MOV A, R4
+0045 B53102           42                             CJNE A, 31H, VAL_ALARMA3
+0048 0534             43                             INC 34H
+004A                  44     VAL_ALARMA3:                             
+004A E4               45                             CLR A
+004B ED               46                             MOV A, R5
+004C B53202           47                             CJNE A, 32H, VAL_ALARMA4
+004F 0534             48                             INC 34H
+0051                  49     VAL_ALARMA4:                             
+0051 E4               50                             CLR A
+0052 EE               51                             MOV A, R6
+0053 B53302           52                             CJNE A, 33H, VAL_ALARMA5
+0056 0534             53                             INC 34H
+0058                  54     VAL_ALARMA5:                             
+0058 E4               55                             CLR A
+0059 E534             56                             MOV A, 34H
+005B B40005           57                             CJNE A, #00H, RUIDITO
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:02:31 PAGE     2
+
+005E 753400           58                             MOV 34H, #00H
+0061 C290             59                             CLR P1.0
+0063                  60     RUIDITO:        
+0063 753400           61                             MOV 34H, #00H
+0066 D290             62                             SETB P1.0
+                      63     
+0068 308D34           64     MAIN:   JNB TF0, NEXT1
+006B C28C             65                             CLR TR0
+006D C28D             66                             CLR TF0
+006F 758C3C           67                             MOV TH0, #03CH  
+0072 758AB0           68                             MOV TL0, #0B0H
+0075 D28C             69                             SETB TR0
+                      70                             
+0077 D826             71                             DJNZ R0, NEXT1
+0079 7814             72                             MOV R0, #14H
+007B 09               73                             INC R1
+007C B90A20           74                             CJNE R1, #0AH, NEXT1  
+007F 7900             75                             MOV R1, #00H
+0081 0A               76                             INC R2
+0082 BA061A           77                             CJNE R2, #06H, NEXT1  
+0085 7A00             78                             MOV R2, #00H
+0087 0B               79                             INC R3
+0088 BB0A14           80                             CJNE R3, #0AH, NEXT1  
+008B 7B00             81                             MOV R3, #00H
+008D 0C               82                             INC R4
+008E BC060E           83                             CJNE R4, #06H, NEXT1  
+0091 7C00             84                             MOV R4, #00H
+0093 0D               85                             INC R5
+0094 BD0A08           86                             CJNE R5, #0AH, NEXT1  
+0097 7D00             87                             MOV R5, #00H
+0099 0E               88                             INC R6
+                      89                             
+009A BE0202           90                             CJNE R6, #02H, NEXT1  
+009D 7E00             91                             HORAS:MOV R6, #00H
+009F 308F4E           92     NEXT1:  JNB TF1, NEXT2
+00A2 30B44D           93                             JNB P3.4, ALARMA
+00A5 C28E             94                             CLR TR1
+00A7 C28F             95                             CLR TF1
+00A9 758DFC           96                             MOV TH1, #0FCH
+00AC 758B18           97                             MOV TL1, #018H
+00AF D28E             98                             SETB TR1
+00B1 D291             99                             SETB P1.1
+00B3 BF040C          100     DIGIT1:         CJNE R7, #04H, DIGIT2
+00B6 75A000          101                                     MOV P2, #00H
+00B9 EB              102                                     MOV A, R3
+00BA 93              103                                     MOVC A, @A+DPTR
+00BB F580            104                                     MOV P0, A
+00BD 75A001          105                                     MOV P2, #01H
+00C0 802D            106                                     SJMP UPDATE
+00C2 BF030C          107                             DIGIT2: CJNE R7, #03H, DIGIT3
+00C5 75A000          108                                                     MOV P2, #00H
+00C8 EC              109                                                     MOV A, R4
+00C9 93              110                                                     MOVC A, @A+DPTR
+00CA F580            111                                                     MOV P0, A
+00CC 75A002          112                                                     MOV P2, #02H
+00CF 801E            113                                                     SJMP UPDATE
+00D1 BF020C          114                             DIGIT3: CJNE R7, #02H, DIGIT4
+00D4 75A000          115                                                     MOV P2, #00H
+00D7 ED              116                                                     MOV A, R5
+00D8 93              117                                                     MOVC A, @A+DPTR
+00D9 F580            118                                                     MOV P0, A
+00DB 75A004          119                                                     MOV P2, #04H
+00DE 800F            120                                                     SJMP UPDATE
+00E0 BF010C          121                             DIGIT4: CJNE R7, #01H, UPDATE
+00E3 75A000          122                                                     MOV P2, #00H
+00E6 EE              123                                                     MOV A, R6
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:02:31 PAGE     3
+
+00E7 93              124                                                     MOVC A, @A+DPTR
+00E8 F580            125                                                     MOV P0, A
+00EA 75A008          126                                                     MOV P2, #08H
+00ED 7F05            127                                                     MOV R7, #05H
+00EF 1F              128                             UPDATE: DEC R7
+00F0 013C            129     NEXT2:  AJMP VAL_ALARMA
+                     130     
+00F2                 131     ALARMA:                 
+00F2 C28E            132                                     CLR TR1
+00F4 C28F            133                                     CLR TF1
+00F6 758DFC          134                                     MOV TH1, #0FCH
+00F9 758B18          135                                     MOV TL1, #018H
+00FC D28E            136                                     SETB TR1
+00FE C291            137                                     CLR P1.1
+0100 BF040D          138                                     CJNE R7, #04H, DIGIT2ALARMA
+0103 75A000          139                                             MOV P2, #00H
+0106 E530            140                                             MOV A, 30H
+0108 93              141                                             MOVC A, @A+DPTR
+0109 F580            142                                             MOV P0, A
+010B 75A001          143                                             MOV P2, #01H
+010E 80DF            144                                             SJMP UPDATE
+0110 BF030D          145                             DIGIT2ALARMA: CJNE R7, #03H, DIGIT3ALARMA
+0113 75A000          146                                                     MOV P2, #00H
+0116 E531            147                                                     MOV A, 31H
+0118 93              148                                                     MOVC A, @A+DPTR
+0119 F580            149                                                     MOV P0, A
+011B 75A002          150                                                     MOV P2, #02H
+011E 80CF            151                                                     SJMP UPDATE
+0120 BF020D          152                             DIGIT3ALARMA: CJNE R7, #02H, DIGIT4ALARMA
+0123 75A000          153                                                     MOV P2, #00H
+0126 E532            154                                                     MOV A, 32H
+0128 93              155                                                     MOVC A, @A+DPTR
+0129 F580            156                                                     MOV P0, A
+012B 75A004          157                                                     MOV P2, #04H
+012E 80BF            158                                                     SJMP UPDATE
+0130 BF010D          159                             DIGIT4ALARMA: CJNE R7, #01H, UPDATEALARMA
+0133 75A000          160                                                     MOV P2, #00H
+0136 E533            161                                                     MOV A, 33H
+0138 93              162                                                     MOVC A, @A+DPTR
+0139 F580            163                                                     MOV P0, A
+013B 75A008          164                                                     MOV P2, #08H
+013E 7F05            165                                                     MOV R7, #05H
+0140 1F              166                             UPDATEALARMA: DEC R7                    
+0141 80AD            167                                                     SJMP NEXT2
+                     168                             
+0100                 169     ORG 0100h
+0100 C0              170                     DB 0C0H
+0101 F9              171                     DB 0F9H
+0102 A4              172                     DB 0A4H
+0103 B0              173                     DB 0B0H
+0104 99              174                     DB 099H
+0105 92              175                     DB 092H
+0106 82              176                     DB 082H
+0107 F8              177                     DB 0F8H
+0108 80              178                     DB 080H
+0109 90              179                     DB 090H
+                     180                     END
+A51 MACRO ASSEMBLER  MAIN                                                                 04/17/2022 00:02:31 PAGE     4
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+ALARMA . . . . . .  C ADDR   00F2H   A   
+DIGIT1 . . . . . .  C ADDR   00B3H   A   
+DIGIT2 . . . . . .  C ADDR   00C2H   A   
+DIGIT2ALARMA . . .  C ADDR   0110H   A   
+DIGIT3 . . . . . .  C ADDR   00D1H   A   
+DIGIT3ALARMA . . .  C ADDR   0120H   A   
+DIGIT4 . . . . . .  C ADDR   00E0H   A   
+DIGIT4ALARMA . . .  C ADDR   0130H   A   
+HERE . . . . . . .  C ADDR   0000H   A   
+HORAS. . . . . . .  C ADDR   009DH   A   
+MAIN . . . . . . .  C ADDR   0068H   A   
+NEXT1. . . . . . .  C ADDR   009FH   A   
+NEXT2. . . . . . .  C ADDR   00F0H   A   
+P0 . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+RUIDITO. . . . . .  C ADDR   0063H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TF1. . . . . . . .  B ADDR   0088H.7 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TH1. . . . . . . .  D ADDR   008DH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TL1. . . . . . . .  D ADDR   008BH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+TR1. . . . . . . .  B ADDR   0088H.6 A   
+UPDATE . . . . . .  C ADDR   00EFH   A   
+UPDATEALARMA . . .  C ADDR   0140H   A   
+VAL_ALARMA . . . .  C ADDR   003CH   A   
+VAL_ALARMA2. . . .  C ADDR   0043H   A   
+VAL_ALARMA3. . . .  C ADDR   004AH   A   
+VAL_ALARMA4. . . .  C ADDR   0051H   A   
+VAL_ALARMA5. . . .  C ADDR   0058H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)

@@ -1,0 +1,310 @@
+A51 MACRO ASSEMBLER  MAIN                                                                 05/01/2022 22:59:48 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\main.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE main.a51 SET(SMALL) DEBUG PRINT(.\Listings\main.lst) OBJECT(.\Objects\m
+                      ain.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+  0080                 1     LCD_E                           EQU P0.0
+  0081                 2     LCD_RW                          EQU P0.1
+  0082                 3     LCD_RS                          EQU P0.2
+  0090                 4     LCD_DISPLAY_BUS         EQU P1
+  00A0                 5     KEYBOARD_INPUT          EQU P2
+  REG                  6     DELAY_SHORT_VAR         EQU R2
+  REG                  7     DELAY_LONG_VAR          EQU R3
+  REG                  8     LCD_VAR                         EQU R4
+  REG                  9     RAM_POINTER                     EQU R0
+  REG                 10     TEMP_RAM_POINTER        EQU R1
+  REG                 11     ASCII_REGISTER          EQU R5
+  REG                 12     KEYBOARD_COUNTER        EQU R6
+  00B4                13     ALT_PIN                         EQU P3.4
+                      14     
+0000                  15     ORG 0000H
+0000 803E             16     JMP MAIN
+                      17     
+0003                  18     ORG 0003H
+0003 804D             19             JMP ISR_1
+                      20     
+0040                  21     ORG 00040H
+0040                  22     MAIN:
+0040 116F             23             ACALL RESET_MEMORY
+0042 119B             24             ACALL INIT_LCD_DISPLAY
+0044 11D2             25             ACALL INIT_INTERRUPTIONS
+                      26             
+0046                  27     MAIN_1:
+0046 30B4FD           28             JNB ALT_PIN, $
+0049 0E               29             INC KEYBOARD_COUNTER
+004A 20B4FD           30             JB ALT_PIN, $
+004D BE00FD           31             CJNE KEYBOARD_COUNTER, #00H, $
+0050 80F4             32             JMP MAIN_1
+                      33     
+                      34     
+0052                  35     ISR_1:
+                      36                     
+0052 BE0209           37                     CJNE KEYBOARD_COUNTER, #02H, isr_01
+0055 EC               38                     MOV A, LCD_VAR
+0056 25A0             39                     ADD A, KEYBOARD_INPUT
+0058 FC               40                     MOV LCD_VAR, A
+0059 7E00             41                     MOV KEYBOARD_COUNTER, #00H
+                      42             
+005B 11BA             43                     ACALL LCD_SEND_DATA
+005D 32               44             RETI
+                      45             
+                      46     
+005E                  47             isr_01: 
+005E BE0106           48                     CJNE KEYBOARD_COUNTER, #01H, isr_normal
+0061 E5A0             49                     MOV A, KEYBOARD_INPUT
+0063 C4               50                     SWAP A
+0064 FC               51                     MOV LCD_VAR, A
+                      52             
+0065 0E               53                     INC KEYBOARD_COUNTER
+0066 32               54             RETI
+                      55             
+                      56             
+0067                  57             isr_normal:
+A51 MACRO ASSEMBLER  MAIN                                                                 05/01/2022 22:59:48 PAGE     2
+
+0067 E5A0             58                     MOV A, KEYBOARD_INPUT
+0069 11FE             59                     ACALL CHANGE_TO_ASCII   
+006B FC               60                     MOV LCD_VAR, A
+006C 11BA             61                     ACALL LCD_SEND_DATA
+                      62             
+006E 32               63             RETI
+                      64             
+                      65     
+006F                  66     RESET_MEMORY:
+006F 7C00             67             MOV LCD_VAR, #00H
+0071 7A00             68             MOV DELAY_SHORT_VAR, #00H
+0073 7B01             69             MOV DELAY_LONG_VAR, #01H
+                      70             
+0075 7830             71             MOV RAM_POINTER, #030H
+0077 7E00             72             MOV KEYBOARD_COUNTER, #00H
+0079 D2B4             73             SETB ALT_PIN
+007B C282             74             CLR LCD_RS
+007D C281             75             CLR LCD_RW
+007F C280             76             CLR LCD_E
+0081 C299             77             CLR TI
+                      78             
+                      79             
+0083 7930             80             MOV TEMP_RAM_POINTER, #30H
+                      81             
+0085                  82             memory_reset_loop:              
+0085 7700             83                     MOV @TEMP_RAM_POINTER, #00H
+0087 09               84                     INC TEMP_RAM_POINTER
+0088 B950FA           85                     CJNE TEMP_RAM_POINTER, #50H, memory_reset_loop
+                      86                     
+008B 22               87             RET
+                      88             
+008C                  89     RESET_RAM_AND_LCD:
+008C 7930             90             MOV TEMP_RAM_POINTER, #30H
+008E 7C01             91             MOV LCD_VAR, #01H
+0090 11C8             92             ACALL LCD_SEND_INSTRUCTION
+                      93             
+0092 11F1             94             ACALL LCD_CHANGE_ROW_TO_1
+                      95             
+0094                  96             reset_ram_and_lcd_loop: 
+0094 7700             97                     MOV @TEMP_RAM_POINTER, #00H
+0096 09               98                     INC TEMP_RAM_POINTER
+0097 B950FA           99                     CJNE TEMP_RAM_POINTER, #50H, reset_ram_and_lcd_loop
+                     100                     
+                     101                     
+009A 22              102             RET
+                     103             
+                     104     
+                     105     
+009B                 106     INIT_LCD_DISPLAY:
+                     107             
+009B 7C38            108             MOV LCD_VAR, #38H
+009D 11C8            109             ACALL LCD_SEND_INSTRUCTION
+009F 3110            110             ACALL DELAY_LONG
+                     111             
+00A1 7C38            112             MOV LCD_VAR, #38H
+00A3 11C8            113             ACALL LCD_SEND_INSTRUCTION
+00A5 3110            114             ACALL DELAY_LONG
+                     115             
+00A7 7C38            116             MOV LCD_VAR, #38H
+00A9 11C8            117             ACALL LCD_SEND_INSTRUCTION
+00AB 3110            118             ACALL DELAY_LONG
+                     119             
+                     120             
+00AD 7C01            121             MOV LCD_VAR, #01H
+00AF 11C8            122             ACALL LCD_SEND_INSTRUCTION
+00B1 3110            123             ACALL DELAY_LONG        
+A51 MACRO ASSEMBLER  MAIN                                                                 05/01/2022 22:59:48 PAGE     3
+
+                     124             
+                     125             
+00B3 7C0F            126             MOV LCD_VAR, #0FH
+00B5 11C8            127             ACALL LCD_SEND_INSTRUCTION
+00B7 3110            128             ACALL DELAY_LONG
+00B9 22              129             RET
+                     130             
+                     131     
+00BA                 132     LCD_SEND_DATA:
+00BA D282            133             SETB LCD_RS 
+00BC 8C90            134             MOV LCD_DISPLAY_BUS, LCD_VAR
+00BE D280            135             SETB LCD_E
+00C0 00              136             NOP  
+00C1 C280            137             CLR LCD_E
+                     138             
+                     139             
+00C3 3112            140             ACALL DELAY_SHORT
+                     141             
+00C5 11DA            142             ACALL STORE_LCD_VAR
+                     143             
+00C7 22              144             RET
+                     145     
+                     146     
+00C8                 147     LCD_SEND_INSTRUCTION:
+00C8 C282            148             CLR LCD_RS  
+00CA 8C90            149             MOV LCD_DISPLAY_BUS, LCD_VAR
+00CC D280            150             SETB LCD_E
+00CE 00              151             NOP  
+00CF C280            152             CLR LCD_E       
+00D1 22              153             RET
+                     154             
+                     155     
+00D2                 156     INIT_INTERRUPTIONS:
+00D2 75A885          157             MOV IE, #10000101B
+00D5 D288            158             SETB IT0 
+00D7 D28A            159             SETB IT1 
+00D9 22              160             RET     
+                     161             
+                     162     
+00DA                 163     STORE_LCD_VAR:
+00DA EC              164             MOV A, LCD_VAR
+00DB F6              165             MOV @RAM_POINTER, A
+00DC 08              166             INC RAM_POINTER
+                     167             
+                     168             
+00DD B84002          169             CJNE RAM_POINTER, #40H, NO_CHANGE_1
+00E0 11EC            170             ACALL LCD_CHANGE_ROW_TO_2       
+                     171             
+00E2                 172             NO_CHANGE_1:    
+                     173                     
+                     174                     
+00E2 B85006          175                     CJNE RAM_POINTER, #50H, NO_CHANGE_2
+00E5 118C            176                     ACALL RESET_RAM_AND_LCD
+00E7 7830            177                     MOV RAM_POINTER, #30H
+00E9 118C            178                     ACALL RESET_RAM_AND_LCD
+                     179             
+00EB                 180             NO_CHANGE_2:
+00EB 22              181                     RET
+                     182     
+                     183     
+                     184     
+00EC                 185     LCD_CHANGE_ROW_TO_2:
+00EC 7CC0            186             MOV LCD_VAR, #0C0H
+00EE 11C8            187             ACALL LCD_SEND_INSTRUCTION
+00F0 22              188             RET
+                     189             
+A51 MACRO ASSEMBLER  MAIN                                                                 05/01/2022 22:59:48 PAGE     4
+
+                     190     
+00F1                 191     LCD_CHANGE_ROW_TO_1:
+00F1 7C80            192             MOV LCD_VAR, #80H
+00F3 11C8            193             ACALL LCD_SEND_INSTRUCTION
+00F5 22              194             RET
+                     195     
+                     196     
+                     197     
+00F6                 198     SEND_ACC_SERIAL:
+00F6 F599            199             MOV SBUF, A
+00F8 3099FD          200             JNB TI, $
+00FB C299            201             CLR TI
+00FD 22              202             RET
+                     203     
+                     204     
+00FE                 205     CHANGE_TO_ASCII:
+00FE FD              206             MOV ASCII_REGISTER, A
+00FF                 207             ascii_step_0:
+00FF B40004          208                     CJNE A, #00H, ascii_step_1
+0102 ED              209                     MOV A, ASCII_REGISTER
+0103 2430            210                     ADD A, #30H
+0105 22              211                     RET
+0106                 212             ascii_step_1:
+0106 B40A04          213                     CJNE A, #0AH, ascii_step_2
+0109 ED              214                     MOV A, ASCII_REGISTER
+010A 2437            215                     ADD A, #37H     
+010C 22              216                     RET
+010D                 217             ascii_step_2:
+010D 14              218                     DEC A
+010E 80EF            219                     SJMP ascii_step_0
+                     220             
+                     221     
+0110                 222     DELAY_LONG:
+0110 7B15            223             MOV DELAY_LONG_VAR, #15H        
+                     224     
+                     225     
+0112                 226     DELAY_SHORT:
+0112 7AFF            227             MOV DELAY_SHORT_VAR, #0FFH
+0114 DAFE            228             DJNZ DELAY_SHORT_VAR, $
+0116 DBFA            229             DJNZ DELAY_LONG_VAR, DELAY_SHORT
+0118 7B01            230             MOV DELAY_LONG_VAR, #1D  
+011A 22              231             RET
+                     232     
+                     233     END
+A51 MACRO ASSEMBLER  MAIN                                                                 05/01/2022 22:59:48 PAGE     5
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E                 T Y P E  V A L U E   ATTRIBUTES
+
+ALT_PIN. . . . . . . .  B ADDR   00B0H.4 A   
+ASCII_REGISTER . . . .    REG    R5          
+ASCII_STEP_0 . . . . .  C ADDR   00FFH   A   
+ASCII_STEP_1 . . . . .  C ADDR   0106H   A   
+ASCII_STEP_2 . . . . .  C ADDR   010DH   A   
+CHANGE_TO_ASCII. . . .  C ADDR   00FEH   A   
+DELAY_LONG . . . . . .  C ADDR   0110H   A   
+DELAY_LONG_VAR . . . .    REG    R3          
+DELAY_SHORT. . . . . .  C ADDR   0112H   A   
+DELAY_SHORT_VAR. . . .    REG    R2          
+IE . . . . . . . . . .  D ADDR   00A8H   A   
+INIT_INTERRUPTIONS . .  C ADDR   00D2H   A   
+INIT_LCD_DISPLAY . . .  C ADDR   009BH   A   
+ISR_01 . . . . . . . .  C ADDR   005EH   A   
+ISR_1. . . . . . . . .  C ADDR   0052H   A   
+ISR_NORMAL . . . . . .  C ADDR   0067H   A   
+IT0. . . . . . . . . .  B ADDR   0088H.0 A   
+IT1. . . . . . . . . .  B ADDR   0088H.2 A   
+KEYBOARD_COUNTER . . .    REG    R6          
+KEYBOARD_INPUT . . . .  D ADDR   00A0H   A   
+LCD_CHANGE_ROW_TO_1. .  C ADDR   00F1H   A   
+LCD_CHANGE_ROW_TO_2. .  C ADDR   00ECH   A   
+LCD_DISPLAY_BUS. . . .  D ADDR   0090H   A   
+LCD_E. . . . . . . . .  B ADDR   0080H.0 A   
+LCD_RS . . . . . . . .  B ADDR   0080H.2 A   
+LCD_RW . . . . . . . .  B ADDR   0080H.1 A   
+LCD_SEND_DATA. . . . .  C ADDR   00BAH   A   
+LCD_SEND_INSTRUCTION .  C ADDR   00C8H   A   
+LCD_VAR. . . . . . . .    REG    R4          
+MAIN . . . . . . . . .  C ADDR   0040H   A   
+MAIN_1 . . . . . . . .  C ADDR   0046H   A   
+MEMORY_RESET_LOOP. . .  C ADDR   0085H   A   
+NO_CHANGE_1. . . . . .  C ADDR   00E2H   A   
+NO_CHANGE_2. . . . . .  C ADDR   00EBH   A   
+P0 . . . . . . . . . .  D ADDR   0080H   A   
+P1 . . . . . . . . . .  D ADDR   0090H   A   
+P2 . . . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . . . .  D ADDR   00B0H   A   
+RAM_POINTER. . . . . .    REG    R0          
+RESET_MEMORY . . . . .  C ADDR   006FH   A   
+RESET_RAM_AND_LCD. . .  C ADDR   008CH   A   
+RESET_RAM_AND_LCD_LOOP  C ADDR   0094H   A   
+SBUF . . . . . . . . .  D ADDR   0099H   A   
+SEND_ACC_SERIAL. . . .  C ADDR   00F6H   A   
+STORE_LCD_VAR. . . . .  C ADDR   00DAH   A   
+TEMP_RAM_POINTER . . .    REG    R1          
+TI . . . . . . . . . .  B ADDR   0098H.1 A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
